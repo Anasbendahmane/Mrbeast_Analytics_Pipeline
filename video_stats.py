@@ -9,6 +9,8 @@ dotenv.load_dotenv(dotenv_path="./.env") # Load environment variables from .env 
 API_KEY = os.getenv("API_KEY")  # Get the API key from environment variables
 channel_handle ="MrBeast" 
 
+Max_Results = 50  # Maximum number of results to fetch per API call
+
 
 def get_playlist_id(API_KEY:str,channel_handle:str) -> str:
     
@@ -39,5 +41,51 @@ def get_playlist_id(API_KEY:str,channel_handle:str) -> str:
         
         
         
+
+def get_video_ids(playlistid:str) -> list :
+    
+    playlist_items_url = f"https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={Max_Results}&playlistId={playlistid}&key={API_KEY}"
+    video_ids =[] # List to store video IDs
+    pageToken = None # Token for pagination
+    
+    try:
+        
+        while True:
+            url = playlist_items_url 
+            if pageToken:   #
+                url += f"&pageToken={pageToken}" # Append page token for pagination if available
+             
+            response = requests.get(url) 
+            response.raise_for_status()
+        
+            print(response.status_code)
+        
+            data = response.json()
+            with open("playlist_items.json","w") as file :
+                json.dump(data,file,indent=4) # Write the JSON data to a file
+            
+            for item in data.get("items",[]): # if "items" exists, return it else return an empty list
+                video_id = item["contentDetails"]["videoId"] # Extract video ID
+                video_ids.append(video_id)
+            
+            pageToken = data.get("nextPageToken")
+            
+            
+            if not pageToken:
+                break
+        
+        
+        return video_ids
+        
+        
+        
+    except ConnectionError as conn_err:
+        print(f"Connection Error !{conn_err}")
+    
+    
+
+       
+        
 if __name__ =="__main__": 
-    get_playlist_id(API_KEY=API_KEY,channel_handle=channel_handle)
+    playlistid = get_playlist_id(API_KEY=API_KEY,channel_handle=channel_handle)
+    print(get_video_ids(playlistid))

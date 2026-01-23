@@ -121,11 +121,14 @@ def extract_video_data(video_ids) :
                     
                 }
                 
-                
                 video_data.append(record)
                 
             
                 
+        with open("raw_data_video.json","w") as f: #save the data into a json file
+            json.dump(video_data,f,indent=4)
+            
+            
             
         return video_data
         

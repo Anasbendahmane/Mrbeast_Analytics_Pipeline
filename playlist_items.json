@@ -1,8 +1,17 @@
 {
     "kind": "youtube#playlistItemListResponse",
-    "etag": "QC26J1qtS-Vwy-cJoFDAsF0t1oc",
-    "prevPageToken": "EAEaH1BUOkNJUUhJaEEzUmpsQk4wRkNRakZEUlRFeU16ZzE",
+    "etag": "Tx9CdT0ixgilqxUl9pw14hHkw1o",
+    "prevPageToken": "EAEaH1BUOkNJUUhJaEEzUlRGRU1VWkJNamc1TmpVME1UWkc",
     "items": [
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "zhVyLz69WX7jOheDTPYZ01ubQDg",
+            "id": "VVVYNk9RM0RrY3NiWU5FNkg4dVFRdVZBLmo5M000NmEtVzNV",
+            "contentDetails": {
+                "videoId": "j93M46a-W3U",
+                "videoPublishedAt": "2013-07-19T23:41:14Z"
+            }
+        },
         {
             "kind": "youtube#playlistItem",
             "etag": "tL7CSMAO0OdkDOr21yR3fHGxWmM",
@@ -347,7 +356,7 @@
         }
     ],
     "pageInfo": {
-        "totalResults": 938,
+        "totalResults": 939,
         "resultsPerPage": 50
     }
 }

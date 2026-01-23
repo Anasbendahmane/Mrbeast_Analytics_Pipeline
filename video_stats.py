@@ -1,5 +1,5 @@
 import requests
-from requests.exceptions import ConnectionError,HTTPError
+from requests.exceptions import ConnectionError,HTTPError,RequestException
 import json
 import os
 import dotenv
@@ -36,8 +36,8 @@ def get_playlist_id(API_KEY:str,channel_handle:str) -> str:
         
         return playlist_id
         
-    except ConnectionError as conn_err:
-        print(f"Connection Error ! {conn_err}")
+    except RequestException as err:
+        raise err
         
         
         
@@ -77,15 +77,67 @@ def get_video_ids(playlistid:str) -> list :
         
         return video_ids
         
-        
-        
-    except ConnectionError as conn_err:
-        print(f"Connection Error !{conn_err}")
-    
+
+    except RequestException as err:
+        raise err
     
 
-       
+         
+def extract_video_data(video_ids) :
+    video_data = []
+    
+    # Function to batch video IDs into smaller lists
+    def batch_list(video_id_list:list,batch_size:int) -> list:
+     for video_id in range(0 , len(video_id_list),batch_size):
+         yield video_id_list[video_id : video_id + batch_size]   # 
+
+   
+    try:
         
+        for batch in batch_list(video_ids,50): #
+            batch = ",".join(batch) # comma-separated IDs for the `id` parameter (string)
+          
+            url_video = f"https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails&part=snippet&part=statistics&id={batch}&key={API_KEY}"
+            
+            response = requests.get(url_video)
+            response.raise_for_status()
+            
+            data = response.json()
+            
+            for item in data.get("items",[]): # if "items" exists, return it else return an empty list
+                content = item.get("contentDetails",{})
+                statistics = item.get("statistics",{})
+                id= item["id"]
+                snippet = item.get("snippet",{})
+                
+                record ={
+                    "video_id" : id,
+                    "title": snippet.get("title") ,
+                    "publishedAt" : snippet.get("publishedAt"),
+                    "duration": content.get("duration"),
+                    "viewCount" : statistics.get("viewCount",None),
+                    "likeCount": statistics.get("likeCount",None),
+                    "CommentCount": statistics.get("commentCount",None) 
+                    
+                }
+                
+                
+                video_data.append(record)
+                
+            
+                
+            
+        return video_data
+        
+    except RequestException as err:
+        raise err
+    
+    
+    
+    
+    
 if __name__ =="__main__": 
     playlistid = get_playlist_id(API_KEY=API_KEY,channel_handle=channel_handle)
-    print(get_video_ids(playlistid))
+    videolist= get_video_ids(playlistid)
+    video_data = extract_video_data(video_ids=videolist)
+    print(video_data)

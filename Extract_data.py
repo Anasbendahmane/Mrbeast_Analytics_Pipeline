@@ -1,6 +1,7 @@
 import requests
 from requests.exceptions import ConnectionError,HTTPError,RequestException
 import json
+from datetime import date
 import os
 import dotenv
 
@@ -122,11 +123,6 @@ def extract_video_data(video_ids) :
                 }
                 
                 video_data.append(record)
-                
-            
-                
-        with open("raw_data_video.json","w") as f: #save the data into a json file
-            json.dump(video_data,f,indent=4)
             
             
             
@@ -135,12 +131,15 @@ def extract_video_data(video_ids) :
     except RequestException as err:
         raise err
     
-    
-    
+# add function to save data to a json file   
+def save_data(video_data): 
+    filepath = f"./data/video_data_{date.today()}.json"
+    with open(filepath,"a",encoding="utf-8") as file: # we use encoding to handle special characters
+        json.dump(video_data,file,indent=4)
     
     
 if __name__ =="__main__": 
     playlistid = get_playlist_id(API_KEY=API_KEY,channel_handle=channel_handle)
     videolist= get_video_ids(playlistid)
     video_data = extract_video_data(video_ids=videolist)
-    print(video_data)
+    save_data(video_data)

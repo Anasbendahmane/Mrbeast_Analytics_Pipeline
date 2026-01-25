@@ -1,8 +1,26 @@
 {
     "kind": "youtube#playlistItemListResponse",
-    "etag": "Tx9CdT0ixgilqxUl9pw14hHkw1o",
-    "prevPageToken": "EAEaH1BUOkNJUUhJaEEzUlRGRU1VWkJNamc1TmpVME1UWkc",
+    "etag": "9TNNsQHT09HkTH_Y5mOTQjCrOcg",
+    "prevPageToken": "EAEaH1BUOkNJUUhJaEF6UWpCRk5EWTNPVEZFTWpjd09EVTI",
     "items": [
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "pN6ILRRi9TS8pfwvfKoqeg4Tmtc",
+            "id": "VVVYNk9RM0RrY3NiWU5FNkg4dVFRdVZBLnEySG9Td0NNY1p3",
+            "contentDetails": {
+                "videoId": "q2HoSwCMcZw",
+                "videoPublishedAt": "2013-07-24T20:35:32Z"
+            }
+        },
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "3jIjGQ5H3rUN6b0jyal7VounJaY",
+            "id": "VVVYNk9RM0RrY3NiWU5FNkg4dVFRdVZBLlJSa25sZ1JxT2Rz",
+            "contentDetails": {
+                "videoId": "RRknlgRqOds",
+                "videoPublishedAt": "2013-07-21T18:26:36Z"
+            }
+        },
         {
             "kind": "youtube#playlistItem",
             "etag": "zhVyLz69WX7jOheDTPYZ01ubQDg",
@@ -356,7 +374,7 @@
         }
     ],
     "pageInfo": {
-        "totalResults": 939,
+        "totalResults": 941,
         "resultsPerPage": 50
     }
 }
